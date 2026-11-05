@@ -26,3 +26,11 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::livewire('/laporan', Admin\Laporan\Index::class)->name('laporan.index');
     Route::livewire('/laporan/{laporan}', Admin\Laporan\Show::class)->name('laporan.show');
 });
+
+// Windows PHP built-in server junction fallback route for storage assets
+Route::get('/storage/{path}', function (string $path) {
+    $filePath = storage_path('app/public/' . $path);
+    abort_unless(file_exists($filePath), 404);
+
+    return response()->file($filePath);
+})->where('path', '.*')->name('storage.local');

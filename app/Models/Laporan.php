@@ -46,7 +46,7 @@ class Laporan extends Model
         }
 
         if (\Illuminate\Support\Facades\Storage::disk('public')->exists($this->foto)) {
-            return \Illuminate\Support\Facades\Storage::disk('public')->url($this->foto);
+            return asset('storage/' . ltrim($this->foto, '/'));
         }
 
         if (file_exists(public_path($this->foto))) {
@@ -57,6 +57,6 @@ class Laporan extends Model
             return asset('images/' . $this->foto);
         }
 
-        return \Illuminate\Support\Facades\Storage::disk('public')->url($this->foto);
+        return asset('storage/' . ltrim($this->foto, '/'));
     }
 }

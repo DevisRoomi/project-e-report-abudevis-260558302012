@@ -179,7 +179,7 @@
                             <span class="flex h-9 w-9 items-center justify-center rounded-md bg-[#4A151C] font-mono text-xs font-bold text-white shadow-2xs">{{ mb_substr(auth()->user()->name, 0, 1) }}</span>
                         @endif
                         <div class="hidden text-left sm:block">
-                            <p class="max-w-36 truncate text-xs font-bold text-[#1C1819]">{{ auth()->user()->name }}</p>
+                            <p class="max-w-xs truncate text-xs font-bold text-[#1C1819]" title="{{ auth()->user()->name }}">{{ auth()->user()->name }}</p>
                             <span class="inline-block font-mono text-[10px] uppercase tracking-wider text-[#4A151C] font-semibold">{{ auth()->user()->role === 'admin' ? 'Administrator' : 'Warga Terdaftar' }}</span>
                         </div>
                     </div>
