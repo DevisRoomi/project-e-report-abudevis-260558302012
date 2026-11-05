@@ -51,6 +51,12 @@
         @livewireStyles
     </head>
     <body class="bg-[#F7F4EE] font-sans text-[#1C1819] antialiased" x-data="{ menuOpen: false, desktop: window.innerWidth >= 1024, scrollProgress: 0 }" @scroll.window="const h = document.documentElement.scrollHeight - window.innerHeight; scrollProgress = h > 0 ? (window.scrollY / h) * 100 : 0" @resize.window="desktop = window.innerWidth >= 1024" @keydown.escape.window="menuOpen = false">
+        {{-- Offline Alert Bar --}}
+        <div wire:offline class="print:hidden fixed top-0 inset-x-0 z-50 flex items-center justify-center gap-2 bg-[#85222E] px-4 py-2 font-mono text-xs font-semibold text-white shadow-md">
+            <i data-lucide="wifi-off" class="h-4 w-4 shrink-0"></i>
+            <span>Koneksi internet terputus. Sistem menunggu jaringan kembali pulih…</span>
+        </div>
+
         <div class="fixed top-0 left-0 h-1 bg-gradient-to-r from-[#C59B27] via-[#85222E] to-[#4A151C] z-50 transition-all duration-75" :style="`width: ${scrollProgress}%`"></div>
         <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-xl focus:bg-[#4A151C] focus:text-white focus:p-3 focus:font-mono focus:text-xs">Langsung ke konten</a>
         <div x-show="menuOpen" x-cloak @click="menuOpen = false" class="fixed inset-0 z-30 bg-[#1C1819]/60 backdrop-blur-xs lg:hidden"></div>

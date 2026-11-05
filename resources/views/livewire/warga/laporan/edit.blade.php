@@ -16,7 +16,10 @@
         {{-- Formulir pengaduan: setiap input terhubung ke properti Livewire --}}
         <div class="space-y-6">
             <div>
-                <label for="judul" class="mb-2 block font-mono text-xs font-semibold uppercase tracking-wider text-[#1C1819]">Judul pengaduan</label>
+                <div class="mb-2 flex items-center justify-between">
+                    <label for="judul" class="block font-mono text-xs font-semibold uppercase tracking-wider text-[#1C1819]">Judul pengaduan</label>
+                    <span class="font-mono text-[10px] text-[#7A6B6E]" x-text="($wire.judul ? $wire.judul.length : 0) + ' / 255'"></span>
+                </div>
                 <input
                     type="text"
                     id="judul"
@@ -25,7 +28,7 @@
                     @error('judul')
                     aria-invalid="true"
                     @enderror
-                    wire:model="judul"
+                    wire:model.live="judul"
                     placeholder="Contoh: Lampu penerangan jalan padam di Jl. Merpati RW 04"
                     maxlength="255"
                     required
@@ -37,7 +40,10 @@
                 @enderror
             </div>
             <div>
-                <label for="detail" class="mb-2 block font-mono text-xs font-semibold uppercase tracking-wider text-[#1C1819]">Deskripsi pengaduan</label>
+                <div class="mb-2 flex items-center justify-between">
+                    <label for="detail" class="block font-mono text-xs font-semibold uppercase tracking-wider text-[#1C1819]">Deskripsi pengaduan</label>
+                    <span class="font-mono text-[10px] text-[#7A6B6E]" x-text="($wire.detail ? $wire.detail.length : 0) + ' / 10.000'"></span>
+                </div>
                 <textarea
                     id="detail"
                     name="detail"
@@ -45,7 +51,7 @@
                     @error('detail')
                     aria-invalid="true"
                     @enderror
-                    wire:model="detail"
+                    wire:model.live="detail"
                     rows="6"
                     placeholder="Ceritakan masalah secara jelas, termasuk lokasi dan dampaknya bagi warga…"
                     maxlength="10000"
