@@ -16,8 +16,8 @@
 
     <div class="grid items-start gap-6 lg:grid-cols-[280px_1fr]">
         <aside class="rounded-lg border border-[#DCD5C8] bg-white p-7 text-center shadow-xs">
-            @if(auth()->user()->foto)
-                <img src="{{ Storage::disk('public')->url(auth()->user()->foto) }}" alt="Foto profil Anda" class="mx-auto h-24 w-24 rounded-full object-cover border border-[#DCD5C8]">
+            @if(auth()->user()->fotoUrl())
+                <img src="{{ auth()->user()->fotoUrl() }}" alt="Foto profil Anda" class="mx-auto h-24 w-24 rounded-full object-cover border border-[#DCD5C8]">
             @else
                 <div class="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-[#FAF7F5] border border-[#ECE7DF] font-serif text-3xl font-bold text-[#4A151C]">{{ mb_substr(auth()->user()->name, 0, 1) }}</div>
             @endif
@@ -137,6 +137,16 @@
                         @error('foto')
                             <p id="foto-error" role="alert" class="mt-2 font-mono text-xs text-[#85222E]">{{ $message }}</p>
                         @enderror
+
+                        @if ($foto && method_exists($foto, 'temporaryUrl') && method_exists($foto, 'isPreviewable') && $foto->isPreviewable())
+                            <div class="mt-4 flex items-center gap-3 rounded-lg border border-[#ECD9C5] bg-[#FAF5EE] p-3">
+                                <img src="{{ $foto->temporaryUrl() }}" alt="Pratinjau foto profil baru" class="h-16 w-16 rounded-full object-cover border border-[#DCD5C8]">
+                                <div>
+                                    <p class="font-mono text-xs font-bold text-[#7C3D0E]">Pratinjau Foto Baru</p>
+                                    <p class="font-mono text-[11px] text-[#A16207]">Foto siap disimpan saat Anda menekan tombol di bawah.</p>
+                                </div>
+                            </div>
+                        @endif
                     </div>
                     <p wire:loading wire:target="foto" class="font-mono text-xs text-[#4A151C]">Mengunggah foto…</p>
                 </div>

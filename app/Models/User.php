@@ -31,4 +31,29 @@ class User extends Authenticatable
     {
         return $this->role === 'admin' ? 'admin.dashboard' : 'warga.dashboard';
     }
+
+    public function fotoUrl(): ?string
+    {
+        if (! $this->foto) {
+            return null;
+        }
+
+        if (str_starts_with($this->foto, 'http://') || str_starts_with($this->foto, 'https://')) {
+            return $this->foto;
+        }
+
+        if (\Illuminate\Support\Facades\Storage::disk('public')->exists($this->foto)) {
+            return \Illuminate\Support\Facades\Storage::disk('public')->url($this->foto);
+        }
+
+        if (file_exists(public_path($this->foto))) {
+            return asset($this->foto);
+        }
+
+        if (file_exists(public_path('images/' . $this->foto))) {
+            return asset('images/' . $this->foto);
+        }
+
+        return \Illuminate\Support\Facades\Storage::disk('public')->url($this->foto);
+    }
 }

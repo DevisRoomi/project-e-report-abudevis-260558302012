@@ -173,8 +173,8 @@
                     </div>
 
                     <div class="flex items-center gap-3 border-l border-[#E5DBD9] pl-4">
-                        @if(auth()->user()->foto)
-                            <img src="{{ Storage::disk('public')->url(auth()->user()->foto) }}" alt="Foto profil" class="h-9 w-9 rounded-md object-cover ring-1 ring-[#4A151C]/20">
+                        @if(auth()->user()->fotoUrl())
+                            <img src="{{ auth()->user()->fotoUrl() }}" alt="Foto profil" class="h-9 w-9 rounded-md object-cover ring-1 ring-[#4A151C]/20">
                         @else
                             <span class="flex h-9 w-9 items-center justify-center rounded-md bg-[#4A151C] font-mono text-xs font-bold text-white shadow-2xs">{{ mb_substr(auth()->user()->name, 0, 1) }}</span>
                         @endif

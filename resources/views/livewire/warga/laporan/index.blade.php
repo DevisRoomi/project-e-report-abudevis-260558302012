@@ -83,11 +83,22 @@
                         @foreach($laporans as $laporan)
                             <tr wire:key="laporan-{{ $laporan->id }}" class="hover:bg-[#FAF7F5]/80 transition">
                                 <td class="max-w-xs px-6 py-4">
-                                    <p class="font-mono text-[10px] uppercase tracking-wider text-[#7A6B6E]">#{{ str_pad($laporan->id, 5, '0', STR_PAD_LEFT) }}</p>
-                                    <a
-                                        href="{{ route('warga.laporan.show', $laporan) }}"
-                                        class="mt-0.5 block truncate font-semibold text-[#1C1819] hover:text-[#4A151C] transition"
-                                    >{{ $laporan->judul }}</a>
+                                    <div class="flex items-center gap-3">
+                                        @if($laporan->fotoUrl())
+                                            <img src="{{ $laporan->fotoUrl() }}" alt="Thumbnail {{ $laporan->judul }}" class="h-10 w-10 shrink-0 rounded-md object-cover border border-[#DCD5C8]">
+                                        @else
+                                            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-[#ECE7DF] bg-[#FAF7F5] text-[#7A6B6E]">
+                                                <i data-lucide="image" aria-hidden="true" class="h-4 w-4"></i>
+                                            </div>
+                                        @endif
+                                        <div class="min-w-0 flex-1">
+                                            <p class="font-mono text-[10px] uppercase tracking-wider text-[#7A6B6E]">#{{ str_pad($laporan->id, 5, '0', STR_PAD_LEFT) }}</p>
+                                            <a
+                                                href="{{ route('warga.laporan.show', $laporan) }}"
+                                                class="mt-0.5 block truncate font-semibold text-[#1C1819] hover:text-[#4A151C] transition"
+                                            >{{ $laporan->judul }}</a>
+                                        </div>
+                                    </div>
                                 </td>
                                 <td class="px-4 py-4 font-mono text-[11px] text-[#554749]">{{ $laporan->tanggal->translatedFormat('d M Y') }}</td>
                                 <td class="px-4 py-4 font-mono text-[11px] text-[#7A6B6E]">{{ $laporan->created_at->translatedFormat('d M Y') }}</td>

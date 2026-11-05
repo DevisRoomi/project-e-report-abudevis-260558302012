@@ -52,14 +52,14 @@
                 <div class="mt-8 border-t border-[#ECE7DF] pt-6">
                     <span class="font-mono text-[10px] font-bold tracking-wider uppercase text-[#C59B27]">DOKUMEN LAMPIRAN</span>
                     <h3 class="mt-1 mb-4 font-serif text-lg font-bold text-[#1C1819]">Foto Bukti Lapangan</h3>
-                    @if($laporan->foto)
-                        <a href="{{ Storage::disk('public')->url($laporan->foto) }}" target="_blank" rel="noopener">
-                            <img src="{{ Storage::disk('public')->url($laporan->foto) }}" alt="Foto bukti: {{ $laporan->judul }}" class="max-h-[500px] w-full rounded-md border border-[#DCD5C8] bg-[#FAF7F5] object-contain">
+                    @if($laporan->fotoUrl())
+                        <a href="{{ $laporan->fotoUrl() }}" target="_blank" rel="noopener">
+                            <img src="{{ $laporan->fotoUrl() }}" alt="Foto bukti: {{ $laporan->judul }}" class="max-h-[500px] w-full rounded-md border border-[#DCD5C8] bg-[#FAF7F5] object-contain">
                         </a>
                         <p class="mt-2 font-mono text-[11px] text-[#7A6B6E]">Klik foto untuk melihat resolusi penuh di tab baru.</p>
                     @else
-                        <div class="flex items-center gap-3 rounded-md bg-[#FAF7F5] border border-[#ECE7DF] p-5 font-mono text-xs text-[#7A6B6E]">
-                            <i data-lucide="image" aria-hidden="true" class="h-4 w-4 shrink-0 text-[#C59B27]"></i>
+                        <div class="flex flex-col items-center justify-center rounded-md border border-dashed border-[#DCD5C8] bg-[#FAF7F5] p-10 text-center font-mono text-xs text-[#7A6B6E]">
+                            <i data-lucide="image" aria-hidden="true" class="h-6 w-6 shrink-0 text-[#C59B27] mb-2"></i>
                             Tidak ada dokumen foto bukti dilampirkan.
                         </div>
                     @endif

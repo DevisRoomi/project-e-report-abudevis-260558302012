@@ -96,6 +96,13 @@
                         @error('foto')
                             <p id="foto-error" role="alert" class="mt-1.5 font-mono text-xs text-[#85222E]">{{ $message }}</p>
                         @enderror
+
+                        @if ($foto && method_exists($foto, 'temporaryUrl') && method_exists($foto, 'isPreviewable') && $foto->isPreviewable())
+                            <div class="mt-4 rounded-md border border-[#DCD5C8] bg-white p-3">
+                                <p class="mb-2 font-mono text-[11px] font-bold uppercase tracking-wider text-[#4A151C]">Pratinjau Foto Bukti:</p>
+                                <img src="{{ $foto->temporaryUrl() }}" alt="Pratinjau bukti pengaduan" class="max-h-56 rounded border border-[#ECE7DF] object-contain">
+                            </div>
+                        @endif
                     </div>
                     <p wire:loading wire:target="foto" role="status" class="mt-3 font-mono text-xs text-[#4A151C]">Mengunggah berkas foto…</p>
                 </div>
