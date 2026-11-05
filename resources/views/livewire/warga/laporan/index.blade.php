@@ -85,7 +85,7 @@
                                 <td class="max-w-xs px-6 py-4">
                                     <div class="flex items-center gap-3">
                                         @if($laporan->fotoUrl())
-                                            <img src="{{ $laporan->fotoUrl() }}" alt="Thumbnail {{ $laporan->judul }}" class="h-10 w-10 shrink-0 rounded-md object-cover border border-[#DCD5C8]">
+                                            <img src="{{ $laporan->fotoUrl() }}" alt="Thumbnail {{ $laporan->judul }}" loading="lazy" class="h-10 w-10 shrink-0 rounded-md object-cover border border-[#DCD5C8]">
                                         @else
                                             <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-[#ECE7DF] bg-[#FAF7F5] text-[#7A6B6E]">
                                                 <i data-lucide="image" aria-hidden="true" class="h-4 w-4"></i>
