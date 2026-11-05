@@ -132,18 +132,30 @@
                     </div>
                     <div>
                         <label for="foto" class="mb-2 block font-mono text-xs font-bold uppercase tracking-wider text-[#1C1819]">Foto Profil</label>
-                        <input
-                            type="file"
-                            id="foto"
-                            name="foto"
-                            aria-describedby="foto-help foto-error"
-                            @error('foto')
-                            aria-invalid="true"
-                            @enderror
-                            wire:model="foto"
-                            accept="image/jpeg,image/png,image/webp"
-                            class="w-full rounded-md border border-[#DCD5C8] bg-white px-4 py-2.5 font-mono text-xs text-[#554749] outline-none file:mr-3 file:rounded-md file:border-0 file:bg-[#FAF7F5] file:px-3 file:py-1.5 file:font-mono file:text-xs file:font-bold file:text-[#4A151C] file:border file:border-[#ECE7DF]"
+                        <div
+                            x-data="{ uploading: false, progress: 0 }"
+                            x-on:livewire-upload-start="uploading = true"
+                            x-on:livewire-upload-finish="uploading = false; progress = 0"
+                            x-on:livewire-upload-error="uploading = false; progress = 0"
+                            x-on:livewire-upload-progress="progress = $event.detail.progress"
                         >
+                            <input
+                                type="file"
+                                id="foto"
+                                name="foto"
+                                aria-describedby="foto-help foto-error"
+                                @error('foto')
+                                aria-invalid="true"
+                                @enderror
+                                wire:model="foto"
+                                accept="image/jpeg,image/png,image/webp"
+                                class="w-full rounded-md border border-[#DCD5C8] bg-white px-4 py-2.5 font-mono text-xs text-[#554749] outline-none file:mr-3 file:rounded-md file:border-0 file:bg-[#FAF7F5] file:px-3 file:py-1.5 file:font-mono file:text-xs file:font-bold file:text-[#4A151C] file:border file:border-[#ECE7DF]"
+                            >
+                            <div x-show="uploading" class="mt-2 w-full bg-[#ECE7DF] rounded-full h-1.5 overflow-hidden">
+                                <div class="bg-[#4A151C] h-1.5 rounded-full transition-all duration-200" :style="'width: ' + progress + '%'"></div>
+                            </div>
+                            <p x-show="uploading" class="mt-1 font-mono text-[11px] text-[#4A151C]" x-text="'Mengunggah foto: ' + progress + '%'"></p>
+                        </div>
                         <p id="foto-help" class="mt-2 font-mono text-[11px] leading-relaxed text-[#7A6B6E]">Format berkas JPG, PNG, atau WebP. Ukuran maksimal 2 MB.</p>
                         @error('foto')
                             <p id="foto-error" role="alert" class="mt-2 font-mono text-xs text-[#85222E]">{{ $message }}</p>

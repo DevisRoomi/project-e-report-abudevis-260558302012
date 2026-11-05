@@ -78,7 +78,13 @@
                     @enderror
                 </div>
                 <div class="rounded-lg border border-[#DCD5C8] bg-[#FAF7F5] p-5">
-                    <div>
+                    <div
+                        x-data="{ uploading: false, progress: 0 }"
+                        x-on:livewire-upload-start="uploading = true"
+                        x-on:livewire-upload-finish="uploading = false; progress = 0"
+                        x-on:livewire-upload-error="uploading = false; progress = 0"
+                        x-on:livewire-upload-progress="progress = $event.detail.progress"
+                    >
                         <label for="foto" class="mb-2 block font-mono text-xs font-semibold uppercase tracking-wider text-[#1C1819]">Foto bukti lapangan (opsional)</label>
                         <input
                             type="file"
@@ -92,6 +98,10 @@
                             accept="image/jpeg,image/png,image/webp"
                             class="w-full rounded-md border border-[#DCD5C8] bg-white px-3 py-2 text-xs font-mono text-[#554749] outline-none file:mr-3 file:rounded file:border-0 file:bg-[#4A151C] file:px-3 file:py-1.5 file:font-mono file:text-xs file:font-bold file:uppercase file:tracking-wider file:text-white hover:file:bg-[#3C0F15]"
                         >
+                        <div x-show="uploading" class="mt-2 w-full bg-[#ECE7DF] rounded-full h-1.5 overflow-hidden">
+                            <div class="bg-[#4A151C] h-1.5 rounded-full transition-all duration-200" :style="'width: ' + progress + '%'"></div>
+                        </div>
+                        <p x-show="uploading" class="mt-1 font-mono text-[11px] text-[#4A151C]" x-text="'Mengunggah bukti: ' + progress + '%'"></p>
                         <p id="foto-help" class="mt-2 text-[11px] leading-relaxed text-[#7A6B6E]">Format JPG, PNG, atau WebP. Maksimal ukuran 2 MB. Lampirkan foto yang memperjelas kondisi fisik.</p>
                         @error('foto')
                             <p id="foto-error" role="alert" class="mt-1.5 font-mono text-xs text-[#85222E]">{{ $message }}</p>
