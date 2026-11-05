@@ -39,6 +39,27 @@ class Index extends AdminPage
         $this->resetPage();
     }
 
+    public function exportExcel()
+    {
+        $direction = $this->sort === 'oldest' ? 'asc' : 'desc';
+        $laporans = Laporan::with('pelapor')
+            ->when($this->search !== '', fn ($q) => $q->where(function ($q): void {
+                $q->where('judul', 'like', '%'.$this->search.'%')
+                    ->orWhereHas('pelapor', fn ($q) => $q->where('name', 'like', '%'.$this->search.'%'));
+            }))
+            ->when($this->status !== '', fn ($q) => $q->where('status', $this->status))
+            ->orderBy('created_at', $direction)->orderBy('id', $direction)->get();
+
+        $filename = 'rekap-pengaduan-'.date('Y-m-d-His').'.xls';
+
+        return response()->streamDownload(function () use ($laporans) {
+            echo view('exports.laporan-excel', ['laporans' => $laporans])->render();
+        }, $filename, [
+            'Content-Type' => 'application/vnd.ms-excel; charset=utf-8',
+            'Content-Disposition' => 'attachment; filename="'.$filename.'"',
+        ]);
+    }
+
     public function render(): View
     {
         $this->validate([

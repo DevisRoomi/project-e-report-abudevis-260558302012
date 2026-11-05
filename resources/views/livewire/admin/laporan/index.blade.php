@@ -5,6 +5,18 @@
             <h1 class="mt-1 font-serif text-3xl font-bold tracking-tight text-[#1C1819] sm:text-4xl">Seluruh Berkas Pengaduan</h1>
             <p class="mt-1 text-xs leading-relaxed text-[#7A6B6E]">Kelola, verifikasi, dan pantau penyelesaian seluruh laporan fasilitas publik warga.</p>
         </div>
+        <div class="flex items-center gap-2">
+            <button
+                type="button"
+                wire:click="exportExcel"
+                wire:loading.attr="disabled"
+                class="inline-flex items-center justify-center gap-2 rounded-md border border-[#DCD5C8] bg-white px-4 py-2.5 font-mono text-xs font-bold uppercase tracking-wider text-[#554749] hover:bg-[#FAF7F5] transition shadow-xs cursor-pointer"
+            >
+                <i data-lucide="sheet" aria-hidden="true" class="h-3.5 w-3.5 shrink-0 text-[#1D5E38]"></i>
+                <span wire:loading.remove wire:target="exportExcel">Unduh Rekap Excel</span>
+                <span wire:loading wire:target="exportExcel">Menyiapkan Rekap…</span>
+            </button>
+        </div>
     </div>
 
     {{-- Pencarian dan filter pengaduan --}}

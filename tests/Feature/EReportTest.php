@@ -353,6 +353,8 @@ class EReportTest extends TestCase
         $component->set('sort', 'newest')->assertViewHas('laporans', fn ($rows) => $rows->first()->id === $second->id);
         $component->set('search', 'Ayu')->set('status', 'proses')->call('resetFilters')
             ->assertSet('search', '')->assertSet('status', '')->assertSet('sort', 'newest');
+
+        $component->call('exportExcel')->assertFileDownloaded();
     }
 
     public function test_complaint_pagination_works(): void

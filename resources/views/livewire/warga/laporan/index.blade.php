@@ -1,4 +1,19 @@
-<div>
+<div x-data="{
+    deleteModal: false,
+    deleteId: null,
+    deleteTitle: '',
+    openDelete(id, title) {
+        this.deleteId = id;
+        this.deleteTitle = title;
+        this.deleteModal = true;
+    },
+    confirmDelete() {
+        if (this.deleteId) {
+            $wire.delete(this.deleteId);
+            this.deleteModal = false;
+        }
+    }
+}">
     <div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-[#DCD5C8] pb-6">
         <div>
             <span class="font-mono text-[11px] font-bold tracking-[.2em] uppercase text-[#C59B27]">PORTAL ADUAN SAYA</span>
@@ -146,12 +161,12 @@
                                                 <i data-lucide="pencil" aria-hidden="true" class="h-3.5 w-3.5 shrink-0"></i>
                                             </a>
                                             <button
-                                                wire:click="delete({{ $laporan->id }})"
-                                                wire:confirm="Hapus pengaduan ini? Foto bukti juga akan dihapus. Tindakan ini tidak dapat dibatalkan."
+                                                type="button"
+                                                @click="openDelete({{ $laporan->id }}, '{{ addslashes($laporan->judul) }}')"
                                                 wire:loading.attr="disabled"
                                                 aria-label="Hapus {{ $laporan->judul }}"
                                                 title="Cabut Berkas"
-                                                class="rounded border border-[#DCD5C8] bg-white p-1.5 text-[#554749] hover:border-[#85222E] hover:bg-[#FAF7F5] hover:text-[#85222E] transition"
+                                                class="rounded border border-[#DCD5C8] bg-white p-1.5 text-[#554749] hover:border-[#85222E] hover:bg-[#FAF7F5] hover:text-[#85222E] transition cursor-pointer"
                                             >
                                                 <i data-lucide="trash-2" aria-hidden="true" class="h-3.5 w-3.5 shrink-0"></i>
                                             </button>
@@ -190,5 +205,69 @@
                 @endif
             </div>
         @endif
+    </div>
+
+    {{-- Modal Konfirmasi Hapus Warga --}}
+    <div
+        x-show="deleteModal"
+        x-cloak
+        class="fixed inset-0 z-50 flex items-center justify-center p-4 print:hidden"
+        role="dialog"
+        aria-modal="true"
+        @keydown.escape.window="deleteModal = false"
+    >
+        {{-- Backdrop --}}
+        <div
+            x-show="deleteModal"
+            x-transition:enter="ease-out duration-200"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="ease-in duration-150"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+            @click="deleteModal = false"
+            class="fixed inset-0 bg-[#1C1819]/60 backdrop-blur-xs"
+        ></div>
+
+        {{-- Dialog Box --}}
+        <div
+            x-show="deleteModal"
+            x-transition:enter="ease-out duration-200"
+            x-transition:enter-start="opacity-0 scale-95"
+            x-transition:enter-end="opacity-100 scale-100"
+            x-transition:leave="ease-in duration-150"
+            x-transition:leave-start="opacity-100 scale-100"
+            x-transition:leave-end="opacity-0 scale-95"
+            class="relative w-full max-w-md rounded-lg border border-[#DCD5C8] bg-white p-6 shadow-xl"
+        >
+            <div class="flex items-start gap-4">
+                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#FDF2F2] border border-[#E8B4B8] text-[#85222E]">
+                    <i data-lucide="trash-2" class="h-5 w-5"></i>
+                </div>
+                <div>
+                    <h3 class="font-serif text-lg font-bold text-[#1C1819]">Cabut Berkas Pengaduan?</h3>
+                    <p class="mt-2 text-xs leading-relaxed text-[#7A6B6E]">
+                        Apakah Anda yakin ingin menghapus berkas <strong class="text-[#1C1819]" x-text="deleteTitle"></strong>? Bukti foto lapangan yang tersimpan juga akan dihapus permanen dari server. Tindakan ini tidak dapat dibatalkan.
+                    </p>
+                </div>
+            </div>
+
+            <div class="mt-6 flex items-center justify-end gap-3 border-t border-[#ECE7DF] pt-4">
+                <button
+                    type="button"
+                    @click="deleteModal = false"
+                    class="rounded-md border border-[#DCD5C8] bg-white px-4 py-2 font-mono text-xs font-bold uppercase tracking-wider text-[#554749] hover:bg-[#FAF7F5] transition cursor-pointer"
+                >
+                    Batal
+                </button>
+                <button
+                    type="button"
+                    @click="confirmDelete()"
+                    class="rounded-md bg-[#85222E] px-4 py-2 font-mono text-xs font-bold uppercase tracking-wider text-white shadow-xs hover:bg-[#681923] transition cursor-pointer"
+                >
+                    Ya, Cabut Berkas
+                </button>
+            </div>
+        </div>
     </div>
 </div>
