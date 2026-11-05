@@ -281,6 +281,28 @@ class EReportTest extends TestCase
             ->call('updateProfile')->assertHasErrors('foto');
     }
 
+    public function test_citizen_can_remove_profile_photo_and_cancel_staged_photo(): void
+    {
+        $user = User::factory()->create();
+        $stored = UploadedFile::fake()->image('profil.jpg')->store('profil', 'public');
+        $user->update(['foto' => $stored]);
+        Storage::disk('public')->assertExists($stored);
+
+        // Test cancel staged upload
+        Livewire::actingAs($user)->test(Warga\Profile::class)
+            ->set('foto', UploadedFile::fake()->image('temp.jpg'))
+            ->assertSet('foto', fn($f) => $f !== null)
+            ->call('batalPilihFoto')
+            ->assertSet('foto', null);
+
+        // Test delete photo
+        Livewire::actingAs($user)->test(Warga\Profile::class)
+            ->call('hapusFoto');
+
+        $this->assertNull($user->fresh()->foto);
+        Storage::disk('public')->assertMissing($stored);
+    }
+
     public function test_password_change_requires_current_password_then_hashes_new_password(): void
     {
         $user = User::factory()->create();

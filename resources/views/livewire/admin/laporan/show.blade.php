@@ -64,14 +64,40 @@
                 <h3 class="mt-1 mb-4 font-serif text-lg font-bold text-[#1C1819]">Deskripsi Pengaduan</h3>
                 <p class="text-xs leading-relaxed break-words whitespace-pre-line text-[#554749]">{{ $laporan->detail }}</p>
 
-                <div class="mt-8 border-t border-[#ECE7DF] pt-6">
+                <div class="mt-8 border-t border-[#ECE7DF] pt-6" x-data="{ lightbox: false }">
                     <span class="font-mono text-[10px] font-bold tracking-wider uppercase text-[#C59B27]">DOKUMEN LAMPIRAN</span>
                     <h3 class="mt-1 mb-4 font-serif text-lg font-bold text-[#1C1819]">Foto Bukti Lapangan</h3>
                     @if($laporan->fotoUrl())
-                        <a href="{{ $laporan->fotoUrl() }}" target="_blank" rel="noopener">
+                        <div class="relative group cursor-pointer" @click="lightbox = true">
                             <img src="{{ $laporan->fotoUrl() }}" alt="Foto bukti: {{ $laporan->judul }}" class="max-h-[500px] w-full rounded-md border border-[#DCD5C8] bg-[#FAF7F5] object-contain">
-                        </a>
-                        <p class="mt-2 font-mono text-[11px] text-[#7A6B6E]">Klik foto untuk melihat resolusi penuh di tab baru.</p>
+                            <div class="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition rounded-md">
+                                <span class="inline-flex items-center gap-1.5 rounded bg-white px-3 py-1.5 font-mono text-xs font-bold text-[#4A151C] shadow-md">
+                                    <i data-lucide="maximize-2" class="h-3.5 w-3.5"></i>
+                                    Perbesar Tampilan
+                                </span>
+                            </div>
+                        </div>
+                        <p class="mt-2 font-mono text-[11px] text-[#7A6B6E]">Klik foto untuk memperbesar pratinjau resolusi penuh.</p>
+
+                        {{-- Lightbox Modal --}}
+                        <div
+                            x-show="lightbox"
+                            x-cloak
+                            @keydown.escape.window="lightbox = false"
+                            class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-xs"
+                        >
+                            <div class="relative max-h-screen max-w-5xl" @click.away="lightbox = false">
+                                <button
+                                    type="button"
+                                    @click="lightbox = false"
+                                    class="absolute -top-10 right-0 flex items-center gap-1 font-mono text-xs text-white hover:text-[#C59B27]"
+                                >
+                                    <i data-lucide="x" class="h-4 w-4"></i>
+                                    Tutup (ESC)
+                                </button>
+                                <img src="{{ $laporan->fotoUrl() }}" alt="Foto bukti resolusi penuh" class="max-h-[85vh] w-auto rounded border border-white/20 object-contain shadow-2xl">
+                            </div>
+                        </div>
                     @else
                         <div class="flex flex-col items-center justify-center rounded-md border border-dashed border-[#DCD5C8] bg-[#FAF7F5] p-10 text-center font-mono text-xs text-[#7A6B6E]">
                             <i data-lucide="image" aria-hidden="true" class="h-6 w-6 shrink-0 text-[#C59B27] mb-2"></i>

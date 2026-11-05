@@ -22,6 +22,11 @@ class Edit extends ComplaintForm
         $this->tanggal = $laporan->tanggal->format('Y-m-d');
     }
 
+    public function batalPilihFoto(): void
+    {
+        $this->reset('foto');
+    }
+
     public function save(): void
     {
         $this->authorize('update', Laporan::findOrFail($this->laporanId));

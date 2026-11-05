@@ -98,7 +98,17 @@
 
                     @if ($foto && method_exists($foto, 'temporaryUrl') && method_exists($foto, 'isPreviewable') && $foto->isPreviewable())
                         <div class="mt-4 rounded-md border border-[#DCD5C8] bg-white p-3">
-                            <p class="mb-2 font-mono text-[11px] font-bold uppercase tracking-wider text-[#4A151C]">Pratinjau Foto Bukti Baru:</p>
+                            <div class="mb-2 flex items-center justify-between">
+                                <p class="font-mono text-[11px] font-bold uppercase tracking-wider text-[#4A151C]">Pratinjau Foto Bukti Baru:</p>
+                                <button
+                                    type="button"
+                                    wire:click="batalPilihFoto"
+                                    class="inline-flex items-center gap-1 rounded border border-[#DCD5C8] bg-[#FAF7F5] px-2 py-0.5 font-mono text-[10px] font-bold text-[#85222E] hover:bg-white transition"
+                                >
+                                    <i data-lucide="x" class="h-3 w-3"></i>
+                                    Batal Unggah
+                                </button>
+                            </div>
                             <img src="{{ $foto->temporaryUrl() }}" alt="Pratinjau foto bukti baru" class="max-h-56 rounded border border-[#ECE7DF] object-contain">
                         </div>
                     @endif

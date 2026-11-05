@@ -37,13 +37,30 @@ class Profile extends WargaPage
         $this->alamat = $user->alamat ?? '';
     }
 
+    public function hapusFoto(): void
+    {
+        $user = auth()->user();
+        if ($user->foto) {
+            $oldPhoto = $user->foto;
+            $user->update(['foto' => null]);
+            StoredImage::delete($oldPhoto, 'profil');
+            $user->refresh();
+            session()->flash('success', 'Foto profil berhasil dihapus.');
+        }
+    }
+
+    public function batalPilihFoto(): void
+    {
+        $this->reset('foto');
+    }
+
     public function updateProfile(): void
     {
         $data = $this->validate([
             'name' => 'required|string|max:100',
             'no_whatsapp' => ['required', 'regex:/^\+?[0-9]{9,15}$/'],
             'alamat' => 'required|string|max:2000',
-            'foto' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048|dimensions:min_width=10,min_height=10,max_width=6000,max_height=6000',
         ]);
         unset($data['foto']);
         if ($this->foto) {

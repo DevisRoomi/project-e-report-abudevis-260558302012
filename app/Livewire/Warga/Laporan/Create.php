@@ -14,6 +14,11 @@ class Create extends ComplaintForm
         $this->tanggal = today()->format('Y-m-d');
     }
 
+    public function batalPilihFoto(): void
+    {
+        $this->reset('foto');
+    }
+
     public function save(): void
     {
         $this->authorize('create', Laporan::class);

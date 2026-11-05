@@ -17,7 +17,18 @@
     <div class="grid items-start gap-6 lg:grid-cols-[280px_1fr]">
         <aside class="rounded-lg border border-[#DCD5C8] bg-white p-7 text-center shadow-xs">
             @if(auth()->user()->fotoUrl())
-                <img src="{{ auth()->user()->fotoUrl() }}" alt="Foto profil Anda" class="mx-auto h-24 w-24 rounded-full object-cover border border-[#DCD5C8]">
+                <div class="relative mx-auto h-24 w-24">
+                    <img src="{{ auth()->user()->fotoUrl() }}" alt="Foto profil Anda" class="h-24 w-24 rounded-full object-cover border border-[#DCD5C8]">
+                    <button
+                        type="button"
+                        wire:click="hapusFoto"
+                        wire:confirm="Hapus foto profil dan gunakan inisial nama?"
+                        title="Hapus foto profil"
+                        class="absolute -bottom-1 -right-1 flex h-7 w-7 items-center justify-center rounded-full bg-[#85222E] text-white hover:bg-[#681B24] transition shadow-xs cursor-pointer border-2 border-white"
+                    >
+                        <i data-lucide="trash-2" class="h-3.5 w-3.5"></i>
+                    </button>
+                </div>
             @else
                 <div class="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-[#FAF7F5] border border-[#ECE7DF] font-serif text-3xl font-bold text-[#4A151C]">{{ mb_substr(auth()->user()->name, 0, 1) }}</div>
             @endif
@@ -139,12 +150,22 @@
                         @enderror
 
                         @if ($foto && method_exists($foto, 'temporaryUrl') && method_exists($foto, 'isPreviewable') && $foto->isPreviewable())
-                            <div class="mt-4 flex items-center gap-3 rounded-lg border border-[#ECD9C5] bg-[#FAF5EE] p-3">
-                                <img src="{{ $foto->temporaryUrl() }}" alt="Pratinjau foto profil baru" class="h-16 w-16 rounded-full object-cover border border-[#DCD5C8]">
-                                <div>
-                                    <p class="font-mono text-xs font-bold text-[#7C3D0E]">Pratinjau Foto Baru</p>
-                                    <p class="font-mono text-[11px] text-[#A16207]">Foto siap disimpan saat Anda menekan tombol di bawah.</p>
+                            <div class="mt-4 flex items-center justify-between rounded-lg border border-[#ECD9C5] bg-[#FAF5EE] p-3">
+                                <div class="flex items-center gap-3">
+                                    <img src="{{ $foto->temporaryUrl() }}" alt="Pratinjau foto profil baru" class="h-16 w-16 rounded-full object-cover border border-[#DCD5C8]">
+                                    <div>
+                                        <p class="font-mono text-xs font-bold text-[#7C3D0E]">Pratinjau Foto Baru</p>
+                                        <p class="font-mono text-[11px] text-[#A16207]">Foto siap disimpan saat Anda menekan tombol di bawah.</p>
+                                    </div>
                                 </div>
+                                <button
+                                    type="button"
+                                    wire:click="batalPilihFoto"
+                                    class="inline-flex items-center gap-1 rounded border border-[#DCD5C8] bg-white px-2.5 py-1 font-mono text-[11px] font-bold text-[#85222E] hover:bg-[#FAF7F5] transition"
+                                >
+                                    <i data-lucide="x" class="h-3.5 w-3.5"></i>
+                                    Batal
+                                </button>
                             </div>
                         @endif
                     </div>
