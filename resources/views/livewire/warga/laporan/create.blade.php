@@ -108,7 +108,7 @@
                             <div class="bg-[#4A151C] h-1.5 rounded-full transition-all duration-200" :style="'width: ' + progress + '%'"></div>
                         </div>
                         <p x-show="uploading" class="mt-1 font-mono text-[11px] text-[#4A151C]" x-text="'Mengunggah bukti: ' + progress + '%'"></p>
-                        <p id="foto-help" class="mt-2 text-[11px] leading-relaxed text-[#7A6B6E]">Format JPG, PNG, atau WebP. Maksimal ukuran 2 MB. Lampirkan foto yang memperjelas kondisi fisik.</p>
+                        <p id="foto-help" class="mt-2 text-[11px] leading-relaxed text-[#7A6B6E]">Format JPG, PNG, atau WebP. Maksimal ukuran 5 MB. Lampirkan foto yang memperjelas kondisi fisik.</p>
                         @error('foto')
                             <p id="foto-error" role="alert" class="mt-1.5 font-mono text-xs text-[#85222E]">{{ $message }}</p>
                         @enderror

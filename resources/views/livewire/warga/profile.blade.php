@@ -156,7 +156,7 @@
                             </div>
                             <p x-show="uploading" class="mt-1 font-mono text-[11px] text-[#4A151C]" x-text="'Mengunggah foto: ' + progress + '%'"></p>
                         </div>
-                        <p id="foto-help" class="mt-2 font-mono text-[11px] leading-relaxed text-[#7A6B6E]">Format berkas JPG, PNG, atau WebP. Ukuran maksimal 2 MB.</p>
+                        <p id="foto-help" class="mt-2 font-mono text-[11px] leading-relaxed text-[#7A6B6E]">Format berkas JPG, PNG, atau WebP. Ukuran maksimal 5 MB.</p>
                         @error('foto')
                             <p id="foto-error" role="alert" class="mt-2 font-mono text-xs text-[#85222E]">{{ $message }}</p>
                         @enderror

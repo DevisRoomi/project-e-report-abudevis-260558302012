@@ -141,7 +141,7 @@ class EReportTest extends TestCase
         Livewire::actingAs(User::factory()->create())->test(Warga\Laporan\Create::class)
             ->set('judul', 'Jalan rusak')->set('detail', 'Jalan berlubang.')
             ->set('tanggal', today()->format('Y-m-d'))
-            ->set('foto', UploadedFile::fake()->image('large.jpg')->size(2049))
+            ->set('foto', UploadedFile::fake()->image('large.jpg')->size(5121))
             ->call('save')->assertHasErrors('foto');
     }
 
@@ -277,8 +277,26 @@ class EReportTest extends TestCase
     public function test_profile_rejects_non_images(): void
     {
         Livewire::actingAs(User::factory()->create())->test(Warga\Profile::class)
-            ->set('foto', UploadedFile::fake()->create('script.png', 5, 'text/plain'))
+            ->set('foto', UploadedFile::fake()->create('doc.pdf', 100))
             ->call('updateProfile')->assertHasErrors('foto');
+    }
+
+    public function test_profile_accepts_and_replaces_with_large_image(): void
+    {
+        Storage::fake('public');
+        $user = User::factory()->create(['foto' => 'profil/old.jpg']);
+        Livewire::actingAs($user)->test(Warga\Profile::class)
+            ->set('name', 'Abu Devis')
+            ->set('no_whatsapp', '+6285122797969')
+            ->set('alamat', 'Kedungjaja')
+            ->set('foto', UploadedFile::fake()->image('gemini.jpg')->size(3500))
+            ->call('updateProfile')
+            ->assertHasNoErrors()
+            ->assertSee('Profil berhasil diperbarui.');
+
+        $user->refresh();
+        $this->assertNotNull($user->foto);
+        $this->assertNotSame('profil/old.jpg', $user->foto);
     }
 
     public function test_citizen_can_remove_profile_photo_and_cancel_staged_photo(): void

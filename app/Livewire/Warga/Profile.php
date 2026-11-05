@@ -60,7 +60,7 @@ class Profile extends WargaPage
             'name' => 'required|string|max:100',
             'no_whatsapp' => ['required', 'regex:/^\+?[0-9]{9,15}$/'],
             'alamat' => 'required|string|max:2000',
-            'foto' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048|dimensions:min_width=10,min_height=10,max_width=6000,max_height=6000',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120|dimensions:min_width=10,min_height=10,max_width=6000,max_height=6000',
         ]);
         unset($data['foto']);
         if ($this->foto) {
