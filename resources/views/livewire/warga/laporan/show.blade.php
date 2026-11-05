@@ -12,13 +12,23 @@
             <h1 class="mt-1 font-serif text-3xl font-bold tracking-tight text-[#1C1819] sm:text-4xl">Detail Pengaduan</h1>
             <p class="mt-1 text-xs leading-relaxed text-[#7A6B6E]">Pantau tahapan tindak lanjut dan arsip berkas pengaduan Anda.</p>
         </div>
-        <a
-            href="{{ route('warga.laporan.index') }}"
-            class="inline-flex items-center justify-center gap-2 rounded-md border border-[#DCD5C8] bg-white px-5 py-2.5 font-mono text-xs font-bold uppercase tracking-wider text-[#554749] hover:bg-[#FAF7F5] transition"
-        >
-            <i data-lucide="arrow-left" aria-hidden="true" class="h-3.5 w-3.5 shrink-0"></i>
-            Kembali ke Berkas Saya
-        </a>
+        <div class="flex items-center gap-2 print:hidden">
+            <button
+                type="button"
+                onclick="window.print()"
+                class="inline-flex items-center justify-center gap-2 rounded-md border border-[#4A151C] bg-[#4A151C] px-4 py-2.5 font-mono text-xs font-bold uppercase tracking-wider text-white hover:bg-[#3C0F15] transition shadow-xs"
+            >
+                <i data-lucide="printer" aria-hidden="true" class="h-3.5 w-3.5 shrink-0"></i>
+                Cetak Tanda Terima
+            </button>
+            <a
+                href="{{ route('warga.laporan.index') }}"
+                class="inline-flex items-center justify-center gap-2 rounded-md border border-[#DCD5C8] bg-white px-4 py-2.5 font-mono text-xs font-bold uppercase tracking-wider text-[#554749] hover:bg-[#FAF7F5] transition"
+            >
+                <i data-lucide="arrow-left" aria-hidden="true" class="h-3.5 w-3.5 shrink-0"></i>
+                Kembali ke Berkas Saya
+            </a>
+        </div>
     </div>
 
     <div class="grid items-start gap-6 lg:grid-cols-[1fr_320px]">
@@ -69,7 +79,7 @@
                             x-show="lightbox"
                             x-cloak
                             @keydown.escape.window="lightbox = false"
-                            class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-xs"
+                            class="print:hidden fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-xs"
                         >
                             <div class="relative max-h-screen max-w-5xl" @click.away="lightbox = false">
                                 <button

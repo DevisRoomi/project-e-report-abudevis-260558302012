@@ -27,6 +27,12 @@ class Index extends WargaPage
         $this->resetPage();
     }
 
+    public function resetFilters(): void
+    {
+        $this->reset(['search', 'status']);
+        $this->resetPage();
+    }
+
     public function delete(int $id): void
     {
         app(ComplaintManager::class)->delete($id);

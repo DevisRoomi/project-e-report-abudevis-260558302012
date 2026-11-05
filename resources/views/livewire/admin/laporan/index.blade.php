@@ -38,6 +38,17 @@
                 <option value="oldest">Terlama</option>
             </select>
         </div>
+        @if($search !== '' || $status !== '')
+            <button
+                type="button"
+                wire:click="resetFilters"
+                class="inline-flex items-center gap-1.5 rounded-md border border-[#DCD5C8] bg-[#FAF7F5] px-3 py-2 font-mono text-xs font-semibold text-[#554749] hover:bg-white hover:text-[#4A151C] transition cursor-pointer"
+                title="Bersihkan filter"
+            >
+                <i data-lucide="rotate-ccw" aria-hidden="true" class="h-3.5 w-3.5 shrink-0"></i>
+                Reset Filter
+            </button>
+        @endif
         <span wire:loading role="status" class="self-center font-mono text-xs text-[#4A151C]">Memuat…</span>
     </div>
 
@@ -50,6 +61,16 @@
                 </div>
                 <h3 class="font-serif text-lg font-bold text-[#1C1819]">Tidak Ada Berkas Ditemukan</h3>
                 <p class="mx-auto mt-1 max-w-sm text-xs text-[#7A6B6E]">Sesuaikan kata kunci pencarian atau opsi filter status pengaduan.</p>
+                @if($search !== '' || $status !== '')
+                    <button
+                        type="button"
+                        wire:click="resetFilters"
+                        class="mt-4 inline-flex items-center gap-2 rounded-md bg-[#4A151C] px-4 py-2 font-mono text-xs font-bold uppercase tracking-wider text-white hover:bg-[#3C0F15] transition"
+                    >
+                        <i data-lucide="rotate-ccw" class="h-3.5 w-3.5"></i>
+                        Kembalikan Semua Data
+                    </button>
+                @endif
             </div>
         @else
             <div class="overflow-x-auto">

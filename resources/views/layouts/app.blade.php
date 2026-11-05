@@ -31,6 +31,21 @@
                     @apply cursor-wait opacity-60;
                 }
             }
+
+            @media print {
+                body {
+                    background: #ffffff !important;
+                    color: #000000 !important;
+                }
+                main {
+                    padding: 0 !important;
+                    margin: 0 !important;
+                    max-width: 100% !important;
+                }
+                .shadow-xs, .shadow-sm, .shadow {
+                    box-shadow: none !important;
+                }
+            }
         </style>
         <style>[x-cloak] { display: none !important; }</style>
         @livewireStyles
@@ -41,7 +56,7 @@
         <div x-show="menuOpen" x-cloak @click="menuOpen = false" class="fixed inset-0 z-30 bg-[#1C1819]/60 backdrop-blur-xs lg:hidden"></div>
 
         {{-- Sidebar: deep oxblood / wine aesthetic --}}
-        <aside :inert="!menuOpen && !desktop" :class="menuOpen ? 'translate-x-0' : '-translate-x-full'" class="fixed inset-y-0 left-0 z-40 flex w-64 flex-col border-r border-[#310A10] bg-[#3C0F15] text-[#FAF7F5] transition-transform duration-200 lg:translate-x-0">
+        <aside :inert="!menuOpen && !desktop" :class="menuOpen ? 'translate-x-0' : '-translate-x-full'" class="print:hidden fixed inset-y-0 left-0 z-40 flex w-64 flex-col border-r border-[#310A10] bg-[#3C0F15] text-[#FAF7F5] transition-transform duration-200 lg:translate-x-0">
             <div class="flex h-20 shrink-0 items-center justify-between border-b border-[#4A151C] px-6">
                 <a href="{{ route('home') }}" class="inline-flex items-center gap-3">
                     <x-civic-logo size="sm" variant="white" />
@@ -154,8 +169,8 @@
         </aside>
 
         {{-- Main viewport wrapper --}}
-        <div class="lg:pl-64">
-            <header class="sticky top-0 z-20 flex h-18 items-center justify-between gap-4 border-b border-[#E5DBD9] bg-white/95 px-5 backdrop-blur-xs sm:px-8">
+        <div class="lg:pl-64 print:pl-0">
+            <header class="print:hidden sticky top-0 z-20 flex h-18 items-center justify-between gap-4 border-b border-[#E5DBD9] bg-white/95 px-5 backdrop-blur-xs sm:px-8">
                 <div class="flex items-center gap-3">
                     <button @click="menuOpen = true" aria-label="Buka navigasi" :aria-expanded="menuOpen" class="rounded-md border border-[#E5DBD9] p-2 text-[#4A151C] hover:bg-[#F7F4F2] lg:hidden">
                         <i data-lucide="menu" aria-hidden="true" class="h-4 w-4 shrink-0"></i>
@@ -187,10 +202,59 @@
             </header>
 
             <main id="main-content" class="mx-auto min-h-[calc(100vh-140px)] max-w-7xl px-4 py-8 sm:px-8 sm:py-10">
+                {{-- Global Toast Alerts --}}
+                @if(session('success'))
+                    <div
+                        x-data="{ show: true }"
+                        x-show="show"
+                        x-init="setTimeout(() => show = false, 5000)"
+                        x-transition:enter="transition ease-out duration-300"
+                        x-transition:enter-start="opacity-0 -translate-y-2"
+                        x-transition:enter-end="opacity-100 translate-y-0"
+                        x-transition:leave="transition ease-in duration-200"
+                        x-transition:leave-start="opacity-100 translate-y-0"
+                        x-transition:leave-end="opacity-0 -translate-y-2"
+                        role="status"
+                        class="mb-6 flex items-center justify-between rounded-lg border border-[#B8D7C2] bg-[#F3F7F4] p-4 text-xs font-mono text-[#1D5E38] shadow-xs"
+                    >
+                        <div class="flex items-center gap-3">
+                            <i data-lucide="circle-check" aria-hidden="true" class="h-4 w-4 shrink-0 text-[#1D5E38]"></i>
+                            <span>{{ session('success') }}</span>
+                        </div>
+                        <button type="button" @click="show = false" aria-label="Tutup notifikasi" class="text-[#1D5E38] hover:opacity-75">
+                            <i data-lucide="x" class="h-4 w-4"></i>
+                        </button>
+                    </div>
+                @endif
+
+                @if(session('error'))
+                    <div
+                        x-data="{ show: true }"
+                        x-show="show"
+                        x-init="setTimeout(() => show = false, 7000)"
+                        x-transition:enter="transition ease-out duration-300"
+                        x-transition:enter-start="opacity-0 -translate-y-2"
+                        x-transition:enter-end="opacity-100 translate-y-0"
+                        x-transition:leave="transition ease-in duration-200"
+                        x-transition:leave-start="opacity-100 translate-y-0"
+                        x-transition:leave-end="opacity-0 -translate-y-2"
+                        role="alert"
+                        class="mb-6 flex items-center justify-between rounded-lg border border-[#E8B4B8] bg-[#FDF2F2] p-4 text-xs font-mono text-[#85222E] shadow-xs"
+                    >
+                        <div class="flex items-center gap-3">
+                            <i data-lucide="alert-circle" aria-hidden="true" class="h-4 w-4 shrink-0 text-[#85222E]"></i>
+                            <span>{{ session('error') }}</span>
+                        </div>
+                        <button type="button" @click="show = false" aria-label="Tutup notifikasi" class="text-[#85222E] hover:opacity-75">
+                            <i data-lucide="x" class="h-4 w-4"></i>
+                        </button>
+                    </div>
+                @endif
+
                 {{ $slot }}
             </main>
 
-            <footer class="flex flex-wrap items-center justify-between gap-3 border-t border-[#E5DBD9] bg-white px-5 py-4 font-mono text-[11px] text-[#7A6B6E] sm:px-8">
+            <footer class="print:hidden flex flex-wrap items-center justify-between gap-3 border-t border-[#E5DBD9] bg-white px-5 py-4 font-mono text-[11px] text-[#7A6B6E] sm:px-8">
                 <p>&copy; {{ date('Y') }} E-Report Layanan Sipil.</p>
                 <div class="flex items-center gap-3">
                     <span>Sistem Akuntabilitas Publik</span>

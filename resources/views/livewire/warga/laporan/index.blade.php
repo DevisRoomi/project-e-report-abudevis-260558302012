@@ -45,6 +45,17 @@
                 @endforeach
             </select>
         </div>
+        @if($search !== '' || $status !== '')
+            <button
+                type="button"
+                wire:click="resetFilters"
+                class="inline-flex items-center gap-1.5 rounded-md border border-[#DCD5C8] bg-[#FAF7F5] px-3 py-2 font-mono text-xs font-semibold text-[#554749] hover:bg-white hover:text-[#4A151C] transition cursor-pointer"
+                title="Bersihkan filter"
+            >
+                <i data-lucide="rotate-ccw" aria-hidden="true" class="h-3.5 w-3.5 shrink-0"></i>
+                Reset Filter
+            </button>
+        @endif
         <span wire:loading role="status" class="self-center font-mono text-xs text-[#4A151C]">Memuat…</span>
     </div>
 
@@ -57,7 +68,17 @@
                 </div>
                 <h3 class="font-serif text-lg font-bold text-[#1C1819]">Belum Ada Pengaduan Ditemukan</h3>
                 <p class="mx-auto mt-1 max-w-sm text-xs text-[#7A6B6E]">Sesuaikan kata kunci pencarian atau buat pengaduan baru bila ada kendala fasilitas di sekitar.</p>
-                <div class="mt-6">
+                <div class="mt-6 flex flex-wrap items-center justify-center gap-3">
+                    @if($search !== '' || $status !== '')
+                        <button
+                            type="button"
+                            wire:click="resetFilters"
+                            class="inline-flex items-center justify-center gap-2 rounded-md border border-[#DCD5C8] bg-white px-4 py-2.5 font-mono text-xs font-bold uppercase tracking-wider text-[#554749] hover:bg-[#FAF7F5] transition"
+                        >
+                            <i data-lucide="rotate-ccw" class="h-3.5 w-3.5"></i>
+                            Reset Filter Pencarian
+                        </button>
+                    @endif
                     <a
                         href="{{ route('warga.laporan.create') }}"
                         class="inline-flex items-center justify-center gap-2 rounded-md bg-[#4A151C] px-5 py-2.5 font-mono text-xs font-bold uppercase tracking-wider text-white shadow-xs transition hover:bg-[#3C0F15]"

@@ -33,6 +33,12 @@ class Index extends AdminPage
         $this->resetPage();
     }
 
+    public function resetFilters(): void
+    {
+        $this->reset(['search', 'status', 'sort']);
+        $this->resetPage();
+    }
+
     public function render(): View
     {
         $this->validate([

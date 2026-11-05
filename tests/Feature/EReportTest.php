@@ -351,6 +351,8 @@ class EReportTest extends TestCase
         $component->set('status', '')->set('sort', 'oldest')
             ->assertViewHas('laporans', fn ($rows) => $rows->first()->id === $first->id);
         $component->set('sort', 'newest')->assertViewHas('laporans', fn ($rows) => $rows->first()->id === $second->id);
+        $component->set('search', 'Ayu')->set('status', 'proses')->call('resetFilters')
+            ->assertSet('search', '')->assertSet('status', '')->assertSet('sort', 'newest');
     }
 
     public function test_complaint_pagination_works(): void
